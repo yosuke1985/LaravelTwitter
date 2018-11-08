@@ -11,11 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
 
 Route::get('/{name}', function($name) {
     return "Hello $name";
 });
+
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
+Route::get('/', 'UserController@index');

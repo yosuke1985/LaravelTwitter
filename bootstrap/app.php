@@ -51,5 +51,10 @@ $app->singleton(
 | from the actual running of the application and sending responses.
 |
 */
+//
+//$app->register(App\Providers\AppServiceProvider::class);
+//$app->register('Wn\Generators\CommandsServiceProvider');
+//
+//
 
 return $app;
