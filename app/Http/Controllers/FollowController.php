@@ -6,13 +6,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 
-class UserController extends Controller
+class FollowController extends Controller
 {
 
 
     public function index()
     {
-        return "hello User";
+        return "hello Follow";
     }
 
 

@@ -27,3 +27,7 @@ Route::get('/', function () {
 
 
 Route::get('/', 'UserController@index');
+
+Route::get('/tweet', 'TweetController@index');
+
+Route::get('/follow', 'FollowController@index');
