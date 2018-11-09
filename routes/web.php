@@ -16,18 +16,21 @@
 //});
 
 
-Route::get('/{name}', function($name) {
-    return "Hello $name";
-});
+//Route::get('/{name}', function($name) {
+//    return "Hello $name";
+//});
+//
+//
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', 'RegisterViewController@index');
+Route::get('/register', 'ViewControllers\RegisterViewController@index');
+Route::get('/login', 'ViewControllers\LoginViewController@index');
+Route::get('/timeline', 'ViewControllers\TimelineViewController@index');
+Route::get('/profileTimeline', 'ViewControllers\ProfileTimelineViewController@index');
 
 
-Route::get('/', 'UserController@index');
 
-Route::get('/tweet', 'TweetController@index');
-
-Route::get('/follow', 'FollowController@index');
