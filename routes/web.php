@@ -32,5 +32,8 @@ Route::get('/login', 'ViewControllers\LoginViewController@index');
 Route::get('/timeline', 'ViewControllers\TimelineViewController@index');
 Route::get('/profileTimeline', 'ViewControllers\ProfileTimelineViewController@index');
 
+Route::post('/register', 'ViewControllers\RegisterViewController@post');
+
+
 
 

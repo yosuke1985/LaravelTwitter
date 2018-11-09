@@ -11,8 +11,11 @@ class RegisterViewController extends Controller
 
     public function index(){
 //        return "RegisterViewController's index here";
-        return view('RegisterView');
+        return view('RegisterView',['msg'=>'']);
+    }
 
+    public  function post(Request $request){
+        return view("RegisterView", ['msg'=>$request->msg]);
     }
 
 }
