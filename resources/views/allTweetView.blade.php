@@ -35,7 +35,7 @@
 
 
 <h1>All Tweets</h1>
-    <form method="post" action="/timeline">
+    <form method="post" action="/allTweet">
         {{ csrf_field() }}
         <div>Tweet</div>
         <input type="text" name="tweet">

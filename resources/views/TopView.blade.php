@@ -14,7 +14,7 @@
     </li>
 @else
     <li>
-        <a href="/timeline">All Tweets</a>
+        <a href="/allTweet">All Tweets</a>
     </li>
     <br>
     <li>
@@ -29,7 +29,7 @@
 @endguest
 
 <h1>{{ $user->name }}'s Timeline </h1>
-<form method="post" action="/timeline">
+<form method="post" action="/allTweet">
     {{ csrf_field() }}
     <div>Tweet</div>
     <input type="text" name="tweet">

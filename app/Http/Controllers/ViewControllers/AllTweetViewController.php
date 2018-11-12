@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Tweet;
 
 
-class TimelineViewController extends Controller{
+class AllTweetViewController extends Controller{
 
 
     public function __construct(){
@@ -27,7 +27,7 @@ class TimelineViewController extends Controller{
             return $item;
         });
 
-        return view('TimelineView', ['user'=> Auth::user(), 'tweets'=> $tweets]);
+        return view('allTweetView', ['user'=> Auth::user(), 'tweets'=> $tweets]);
     }
 
 
@@ -40,7 +40,7 @@ class TimelineViewController extends Controller{
         $tweet->save();
 
 
-        return view("TimelineView", ['user' => Auth::user()->name,'msg'=>$request->msg,]);
+        return view("allTweetView", ['user' => Auth::user()->name,'msg'=>$request->msg,]);
 
     }
 
