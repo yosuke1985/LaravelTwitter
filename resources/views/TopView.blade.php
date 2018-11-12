@@ -29,7 +29,7 @@
 @endguest
 
 <h1>{{ $user->name }}'s Timeline </h1>
-<form method="post" action="/allTweet">
+<form method="post" action="/">
     {{ csrf_field() }}
     <div>Tweet</div>
     <input type="text" name="tweet">

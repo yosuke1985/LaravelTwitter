@@ -40,7 +40,15 @@ class AllTweetViewController extends Controller{
         $tweet->save();
 
 
-        return view("allTweetView", ['user' => Auth::user()->name,'msg'=>$request->msg,]);
+        $tweets = Tweet::orderBy('updated_at', 'desc')->get();
+        $tweets = $tweets->map(function ($item) {
+            $item = collect($item)->forget('created_at')->forget('id')->forget('user_id');
+            return $item;
+        });
+
+
+
+        return view("allTweetView", ['user' => Auth::user()->name,'tweets'=> $tweets]);
 
     }
 
