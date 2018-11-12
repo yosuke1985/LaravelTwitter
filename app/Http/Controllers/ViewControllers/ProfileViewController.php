@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
-class ProfileTimelineViewController extends Controller
+class ProfileViewController extends Controller
 {
     public function __construct()
     {
@@ -16,7 +16,7 @@ class ProfileTimelineViewController extends Controller
     public function index(){
 
         $user = Auth::user();
-        return view('ProfileTimelineView', ['user'=>$user]);
+        return view('ProfileView', ['user'=>$user]);
 
     }
 
