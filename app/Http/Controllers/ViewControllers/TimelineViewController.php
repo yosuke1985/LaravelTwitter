@@ -17,7 +17,7 @@ class TimelineViewController extends Controller{
 
 
     public function index(){
-        $tweets = Tweet::where('user_id', 1)->get();
+        $tweets = Tweet::where('user_id', 1)->orderBy('updated_at', 'desc')->get();
 
         \Log::debug($tweets);
         \Log::debug("hello world");

@@ -16,11 +16,8 @@
     </li>
 @else
     <li>
-        <a href="/">HOME</a>
-    </li>
-    <li>
-        <a href="/profile">
-            {{ Auth::user()->name }}
+        <a href="/">
+            {{ Auth::user()->name }}'s Timeline
         </a>
     </li>
     <br>
@@ -37,13 +34,8 @@
 
 
 
-<h1>Tweet Timeline</h1>
-
-<h2>{{ $user }}</h2>
-<h2>{{ $msg }}</h2>
-
-
-    <form method="post" action="/">
+<h1>All Tweets</h1>
+    <form method="post" action="/timeline">
         {{ csrf_field() }}
         <div>Tweet</div>
         <input type="text" name="tweet">
@@ -52,5 +44,8 @@
     </form>
 
 {{--配列を変数に入れループで回す--}}
+
+<h3>{{ $user }}</h3>
+<h3>{{ $msg }}</h3>
 </body>
 </html>
