@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
-class ProfileViewController extends Controller
+class TopViewController extends Controller
 {
     public function __construct()
     {
@@ -16,7 +16,7 @@ class ProfileViewController extends Controller
     public function index(){
 
         $user = Auth::user();
-        return view('ProfileView', ['user'=>$user]);
+        return view('TopView', ['user'=>$user]);
 
     }
 

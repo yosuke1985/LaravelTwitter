@@ -3,6 +3,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <body>
+@extends('layouts.app')
 <!-- Authentication Links -->
 @guest
     <li>
@@ -15,12 +16,14 @@
     </li>
 @else
     <li>
+        <a href="/">HOME</a>
+    </li>
+    <li>
         <a href="/profile">
             {{ Auth::user()->name }}
         </a>
     </li>
     <br>
-
     <li>
         <a href="{{ route('logout') }}" onclick="event.preventDefault();
         document.getElementById('logout-form').submit();">
@@ -33,16 +36,21 @@
 @endguest
 
 
+
 <h1>Tweet Timeline</h1>
 
+<h2>{{ $user }}</h2>
 <h2>{{ $msg }}</h2>
+
+
     <form method="post" action="/">
         {{ csrf_field() }}
         <div>Tweet</div>
-        <input type="text" name="msg">
+        <input type="text" name="tweet">
         <br>
         <input type="submit" value="Submit">
     </form>
 
+{{--配列を変数に入れループで回す--}}
 </body>
 </html>

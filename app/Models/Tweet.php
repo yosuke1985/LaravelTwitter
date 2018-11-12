@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tweet extends Model {
 
-    protected $table = 'products';
+    protected $table = 'tweets';
 
 
     protected $fillable = [];
