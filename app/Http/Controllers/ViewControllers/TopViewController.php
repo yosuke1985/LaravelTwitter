@@ -10,15 +10,14 @@ use App\Models\Tweet;
 
 class TopViewController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth');
     }
 
     public function index(){
 
 
-        $tweets = Tweet::where('user_id', 1)->orderBy('updated_at', 'desc')->get();
+        $tweets = Tweet::where('user_id', Auth::user()->id)->orderBy('updated_at', 'desc')->get();
 
         $tweets = $tweets->map(function ($item) {
             $item = collect($item)->forget('created_at')->forget('id')->forget('user_id');

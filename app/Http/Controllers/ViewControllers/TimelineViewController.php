@@ -17,7 +17,7 @@ class TimelineViewController extends Controller{
 
 
     public function index(){
-        $tweets = Tweet::where('user_id', 1)->orderBy('updated_at', 'desc')->get();
+        $tweets = Tweet::orderBy('updated_at', 'desc')->get();
 
         \Log::debug($tweets);
         \Log::debug("hello world");
@@ -27,10 +27,9 @@ class TimelineViewController extends Controller{
             return $item;
         });
 
-
-
-        return view('TimelineView', ['user'=> Auth::user(),'msg'=>$tweets, 'tweets'=> $tweets]);
+        return view('TimelineView', ['user'=> Auth::user(), 'tweets'=> $tweets]);
     }
+
 
     public  function post(Request $request){
         $request->msg;

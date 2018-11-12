@@ -45,7 +45,11 @@
 
 {{--配列を変数に入れループで回す--}}
 
-<h3>{{ $user }}</h3>
-<h3>{{ $msg }}</h3>
+{{--<h3>{{ $user }}</h3>--}}
+{{--<h3>{{ $msg }}</h3>--}}
+@foreach($tweets as $tweet)
+    <h3>{{ $tweet["tweet"]}} {{ $tweet["updated_at"] }}
+    {{--<p>{{ $tweet- }}--}}
+@endforeach
 </body>
 </html>
