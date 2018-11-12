@@ -27,13 +27,19 @@
 
 
 //Route::get('/', 'RegisterViewController@index');
-Route::get('/register', 'ViewControllers\RegisterViewController@index');
-Route::get('/login', 'ViewControllers\LoginViewController@index');
-Route::get('/timeline', 'ViewControllers\TimelineViewController@index');
-Route::get('/profileTimeline', 'ViewControllers\ProfileTimelineViewController@index');
+//
+//Route::get('/register', 'ViewControllers\RegisterViewController@index');
+//Route::get('/login', 'ViewControllers\LoginViewController@index');
+//Route::get('/timeline', 'ViewControllers\TimelineViewController@index');
+//Route::get('/profileTimeline', 'ViewControllers\ProfileTimelineViewController@index');
+//
+//Route::post('/register', 'ViewControllers\RegisterViewController@post');
+//
+//
+//
 
-Route::post('/register', 'ViewControllers\RegisterViewController@post');
 
+Auth::routes();
 
-
-
+Route::get('/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->name('home');
