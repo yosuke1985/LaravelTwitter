@@ -39,7 +39,7 @@
 {{--<h3>{{ $tweets }}</h3>--}}
 
 @foreach($tweets as $tweet)
-    <h3>{{ $tweet->name }}{{ $tweet->tweet }} {{ $tweet->tweets_created_at }}
+    <h3> {{ $tweet["name"] }}:{{ $tweet["tweet"] }} {{ $tweet["updated_at"] }}
 @endforeach
 
 </body>

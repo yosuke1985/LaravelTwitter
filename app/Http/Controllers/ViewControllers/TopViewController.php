@@ -20,7 +20,6 @@ class TopViewController extends Controller{
 
         $user = Auth::user();
 
-//        $tweets = Tweet::where('user_id', Auth::user()->id)->orderBy('updated_at', 'desc')->get();
         $tweets = DB::table('users')
             ->select(["users.name", "users.id", "users.created_at as users_created_at",
                 "users.updated_at as users_updated_at", "tweets.tweet", "tweets.created_at as tweets_created_at"])
@@ -28,43 +27,29 @@ class TopViewController extends Controller{
             ->where("tweets.user_id", $user->id)
             ->get();
 
-
-
+        $tweets = $tweets->map(function ($item){
+            $item = array(
+                "name" => $item->name,
+                "tweet" => $item->tweet,
+                "updated_at" => $item->users_updated_at
+            );
+            return $item;
+          }
+        );
+        \Log::debug("hereee");
 
         \Log::debug($tweets);
 
 
         //ユーザー一覧　フォロー機能
 
-
-
-//        $tweets = $tweets->map(function ($item) {
-////            $item = array(
-////                "name" => $item->name,
-////                "tweet" => $item->tweet,
-////                "updated_at" => $item->updated_at
-////            );
-////            return $item;
-//
-//            //collectionはLaravelのクラス
-//            //php
-//            $item = collect($item)->only(['name', 'tweet','tweets_created_at', 'users_created_at']);
-//
-//
-//            return $item;
-//
-//
-//        });
-
-
-        $user = Auth::user();
         return view('TopView', ['user'=>$user, 'tweets'=>$tweets]);
 
     }
 
     public  function post(Request $request){
         $request->msg;
-//        return view("TimelineView", ['msg'=>$request->msg, 'user' => Auth::user()->name]);
+
         $tweet = new Tweet;
         $tweet->tweet = $request->tweet;
         $tweet->user_id =  Auth::user()->id;
@@ -76,6 +61,7 @@ class TopViewController extends Controller{
             $item = collect($item)->forget('created_at')->forget('id')->forget('user_id');
             return $item;
         });
+
 
 
         $user = Auth::user();
@@ -92,3 +78,24 @@ class TopViewController extends Controller{
 //$tweets = DB::select("select users.name, users.id, users.created_at as users_created_at,
 //                  users.updated_at as users_updated_at, tweets.tweet, tweets.created_at as tweets_created_at
 //                  from users inner join tweets on users.id = tweets.user_id ");
+
+
+//arrayで指定したカラムだけ
+//        $tweets = $tweets->map(function ($item) {
+//            $item = array(
+//                "name" => $item->name,
+//                "tweet" => $item->tweet,
+//                "updated_at" => $item->updated_at
+//            );
+//            return $item;
+//        }
+//
+//            //collectionはLaravelのクラス
+//            //php
+//            $item = collect($item)->only(['name', 'tweet','tweets_created_at', 'users_created_at']);
+//
+//
+//            return $item;
+//
+//
+//        });
