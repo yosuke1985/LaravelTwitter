@@ -35,13 +35,14 @@
 
 
 <h1>All Tweets</h1>
-    <form method="post" action="/allTweet">
+    <form method="post" action="/AllTweet">
         {{ csrf_field() }}
         <div>Tweet</div>
         <input type="text" name="tweet">
         <br>
         <input type="submit" value="Submit">
     </form>
+
 
 {{--配列を変数に入れループで回す--}}
 

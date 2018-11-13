@@ -14,7 +14,7 @@
     </li>
 @else
     <li>
-        <a href="/allTweet">All Tweets</a>
+        <a href="/AllTweet">All Tweets</a>
     </li>
     <br>
     <li>

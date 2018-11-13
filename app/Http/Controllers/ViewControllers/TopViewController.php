@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\DB;
 
 
 
-class TopViewController extends Controller
-{
+class TopViewController extends Controller{
+
+
     public function __construct(){
         $this->middleware('auth');
     }

@@ -37,7 +37,7 @@ class AllTweetViewController extends Controller{
         //var_dump
 
 
-        return view('allTweetView', ['user'=> $user, 'tweets'=> $tweets]);
+        return view('AllTweetView', ['user'=> $user, 'tweets'=> $tweets]);
     }
 
 
@@ -59,7 +59,7 @@ class AllTweetViewController extends Controller{
         \Log::debug(Tweet::find(1)->user);
         \Log::debug(Auth::user()->id);
 
-        return view("allTweetView", ['user' => Auth::user()->name,'tweets'=> $tweets]);
+        return view("AllTweetView", ['user' => Auth::user()->name,'tweets'=> $tweets]);
 
     }
 
