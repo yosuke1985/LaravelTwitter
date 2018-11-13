@@ -29,15 +29,23 @@ class TopViewController extends Controller
             ->where("user_id", $user->id)
             ->get();
 
-        $tweets = $tweets->map(function ($item) {
 
-            $item = array(
-                "name" => $item->name,
-                "tweet" => $item->tweet,
-                "updated_at" => $item->updated_at
-            );
+
+        $tweets = $tweets->map(function ($item) {
+//            $item = array(
+//                "name" => $item->name,
+//                "tweet" => $item->tweet,
+//                "updated_at" => $item->updated_at
+//            );
+//            return $item;
+
+            //collectionはLaravelのクラス
+            //php
+            $item = collect($item)->only(['name', 'tweet','updated_at']);
+
 
             return $item;
+
 
         });
 

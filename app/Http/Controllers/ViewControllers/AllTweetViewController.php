@@ -28,13 +28,8 @@ class AllTweetViewController extends Controller{
 //            return $item;
 //        });
 
-        #tweetsのidからuserを取得しnameを取得した上で辞書に追加。
-//        Tweet::find(Auth::user()->id)->user->with("tweet")->join("");
 
-//
-//        SELECT * FROM users
-//        INNER JOIN  tweets
-//        ON users.id = tweets.user_id;
+
         $user = Auth::user();
 
         $tweets = DB::select('select * from users inner join tweets on users.id = tweets.user_id');
@@ -48,7 +43,7 @@ class AllTweetViewController extends Controller{
 
     public  function post(Request $request){
         $request->msg;
-//        return view("TimelineView", ['msg'=>$request->msg, 'user' => Auth::user()->name]);
+
         $tweet = new Tweet;
         $tweet->tweet = $request->tweet;
         $tweet->user_id =  Auth::user()->id;
