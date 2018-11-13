@@ -11,20 +11,47 @@ use Illuminate\Support\Facades\DB;
 
 class TopViewController extends Controller{
 
+    public $user;
+
 
     public function __construct(){
         $this->middleware('auth');
+        $this->user = Auth::user();
     }
 
     public function index(){
 
         $user = Auth::user();
 
+        $tweets = $this->query();
+
+        //ユーザー一覧　フォロー機能
+
+        return view('TopView', ['user'=>$this->user, 'tweets'=>$tweets]);
+
+    }
+
+    public function post(Request $request){
+
+        $tweet = new Tweet;
+        $tweet->tweet = $request->tweet;
+        $tweet->user_id =  Auth::user()->id;
+        $tweet->save();
+
+        $tweets = $this->query();
+
+
+        return view("TopView", ['user' => $this->user,'tweets'=>$tweets]);
+
+    }
+
+
+    function query(){
         $tweets = DB::table('users')
             ->select(["users.name", "users.id", "users.created_at as users_created_at",
                 "users.updated_at as users_updated_at", "tweets.tweet", "tweets.created_at as tweets_created_at"])
             ->join('tweets', 'users.id', '=', 'tweets.user_id')
-            ->where("tweets.user_id", $user->id)
+            ->where("tweets.user_id", Auth::user()->id)
             ->get();
 
         $tweets = $tweets->map(function ($item){
@@ -34,39 +61,10 @@ class TopViewController extends Controller{
                 "updated_at" => $item->users_updated_at
             );
             return $item;
-          }
+        }
         );
-        \Log::debug("hereee");
 
-        \Log::debug($tweets);
-
-
-        //ユーザー一覧　フォロー機能
-
-        return view('TopView', ['user'=>$user, 'tweets'=>$tweets]);
-
-    }
-
-    public  function post(Request $request){
-        $request->msg;
-
-        $tweet = new Tweet;
-        $tweet->tweet = $request->tweet;
-        $tweet->user_id =  Auth::user()->id;
-        $tweet->save();
-
-
-        $tweets = Tweet::where('user_id', Auth::user()->id)->orderBy('updated_at', 'desc')->get();
-        $tweets = $tweets->map(function ($item) {
-            $item = collect($item)->forget('created_at')->forget('id')->forget('user_id');
-            return $item;
-        });
-
-
-
-        $user = Auth::user();
-
-        return view("TopView", ['user' => $user,'tweets'=>$tweets]);
+        return $tweets;
 
     }
 
@@ -94,8 +92,9 @@ class TopViewController extends Controller{
 //            //php
 //            $item = collect($item)->only(['name', 'tweet','tweets_created_at', 'users_created_at']);
 //
-//
 //            return $item;
-//
-//
 //        });
+
+
+//\Log::debug("hereee");
+//\Log::debug($tweets);

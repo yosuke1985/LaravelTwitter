@@ -34,14 +34,12 @@ class AllTweetViewController extends Controller{
 
 
     public  function post(Request $request){
-        $request->msg;
         $user = Auth::user();
 
         $tweet = new Tweet;
         $tweet->tweet = $request->tweet;
         $tweet->user_id =  Auth::user()->id;
         $tweet->save();
-
 
         $tweets = Tweet::orderBy('updated_at', 'desc')->get();
         $tweets = $tweets->map(function ($item) {
