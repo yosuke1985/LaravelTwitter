@@ -24,30 +24,41 @@ class TopViewController extends Controller
 
 
 
+
         $tweets = DB::table('users')
+            ->select(["users.name", "users.id", "users.created_at as users_created_at",
+                "users.updated_at as users_updated_at", "tweets.tweet", "tweets.created_at as tweets_created_at"])
             ->join('tweets', 'users.id', '=', 'tweets.user_id')
-            ->where("user_id", $user->id)
+            ->where("tweets.user_id", $user->id)
             ->get();
 
 
 
-        $tweets = $tweets->map(function ($item) {
-//            $item = array(
-//                "name" => $item->name,
-//                "tweet" => $item->tweet,
-//                "updated_at" => $item->updated_at
-//            );
+
+        \Log::debug($tweets);
+
+
+        //ユーザー一覧　フォロー機能
+
+
+
+//        $tweets = $tweets->map(function ($item) {
+////            $item = array(
+////                "name" => $item->name,
+////                "tweet" => $item->tweet,
+////                "updated_at" => $item->updated_at
+////            );
+////            return $item;
+//
+//            //collectionはLaravelのクラス
+//            //php
+//            $item = collect($item)->only(['name', 'tweet','tweets_created_at', 'users_created_at']);
+//
+//
 //            return $item;
-
-            //collectionはLaravelのクラス
-            //php
-            $item = collect($item)->only(['name', 'tweet','updated_at']);
-
-
-            return $item;
-
-
-        });
+//
+//
+//        });
 
     // user created at,  tweet created at
 
@@ -81,4 +92,9 @@ class TopViewController extends Controller
 
 }
 
-//        $tweets = DB::select("select * from users inner join tweets on users.id = tweets.user_id ");
+//inner join
+////        $tweets = DB::select("select * from users inner join tweets on users.id = tweets.user_id ");
+///
+//$tweets = DB::select("select users.name, users.id, users.created_at as users_created_at,
+//                  users.updated_at as users_updated_at, tweets.tweet, tweets.created_at as tweets_created_at
+//                  from users inner join tweets on users.id = tweets.user_id ");
