@@ -31,5 +31,10 @@ class User extends Model
     ];
 
 
+    Public function tweet(){
+        return $this->hasMany(Tweet::class);
+    }
+
+
 
 }

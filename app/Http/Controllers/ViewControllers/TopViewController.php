@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Tweet;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -44,6 +45,13 @@ class TopViewController extends Controller
             $item = collect($item)->forget('created_at')->forget('id')->forget('user_id');
             return $item;
         });
+
+//        $user_id = Auth::user()->id;
+
+//        $tweets = DB::select("select * from users inner join tweets on users.id = tweets.user_id ");
+
+        \Log::debug($tweets[0]);
+
         $user = Auth::user();
 
 

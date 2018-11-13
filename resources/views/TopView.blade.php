@@ -36,11 +36,9 @@
     <br>
     <input type="submit" value="Submit">
 </form>
-{{--<h3>{{ $tweets }}</h3>--}}
 
 @foreach($tweets as $tweet)
-    <h3>{{ $tweet["tweet"]}} {{ $tweet["updated_at"] }}
-    {{--<p>{{ $tweet- }}--}}
+    <h3>{{ $tweet->tweet}} {{ $tweet->updated_at }}
 @endforeach
 
 </body>
