@@ -17,13 +17,32 @@ class TopViewController extends Controller
 
     public function index(){
 
+        $user = Auth::user();
 
         $tweets = Tweet::where('user_id', Auth::user()->id)->orderBy('updated_at', 'desc')->get();
 
+
+
+
+        $tweets = DB::table('users')
+            ->join('tweets', 'users.id', '=', 'tweets.user_id')
+            ->where("user_id", $user->id)
+            ->get();
+
         $tweets = $tweets->map(function ($item) {
-            $item = collect($item)->forget('created_at')->forget('id')->forget('user_id');
+            $item = collect($item)
+                ->forget('created_at')
+                ->forget('id')
+                ->forget('user_id')
+                ->forget('email_verified_at')
+                ->forget('password')
+                ->forget('email')
+                ->forget('remember_token');
             return $item;
         });
+
+        \Log::debug($tweets);
+
 
 
         $user = Auth::user();
@@ -40,24 +59,19 @@ class TopViewController extends Controller
         $tweet->save();
 
 
-        $tweets = Tweet::where('user_id', Auth::user()->id)->orderBy('updated_at', 'desc')->get();
-        $tweets = $tweets->map(function ($item) {
-            $item = collect($item)->forget('created_at')->forget('id')->forget('user_id');
-            return $item;
-        });
+//        $tweets = Tweet::where('user_id', Auth::user()->id)->orderBy('updated_at', 'desc')->get();
+//        $tweets = $tweets->map(function ($item) {
+//            $item = collect($item)->forget('created_at')->forget('id')->forget('user_id');
+//            return $item;
+//        });
 
-//        $user_id = Auth::user()->id;
-
-//        $tweets = DB::select("select * from users inner join tweets on users.id = tweets.user_id ");
-
-        \Log::debug($tweets[0]);
 
         $user = Auth::user();
-
-
 
         return view("TopView", ['user' => $user,'tweets'=>$tweets]);
 
     }
 
 }
+
+//        $tweets = DB::select("select * from users inner join tweets on users.id = tweets.user_id ");

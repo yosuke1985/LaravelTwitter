@@ -61,11 +61,8 @@ class AllTweetViewController extends Controller{
             return $item;
         });
 
-
         \Log::debug(Tweet::find(1)->user);
         \Log::debug(Auth::user()->id);
-
-
 
         return view("allTweetView", ['user' => Auth::user()->name,'tweets'=> $tweets]);
 
