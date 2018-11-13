@@ -20,12 +20,7 @@ class TopViewController extends Controller{
 
         $user = Auth::user();
 
-        $tweets = Tweet::where('user_id', Auth::user()->id)->orderBy('updated_at', 'desc')->get();
-
-
-
-
-
+//        $tweets = Tweet::where('user_id', Auth::user()->id)->orderBy('updated_at', 'desc')->get();
         $tweets = DB::table('users')
             ->select(["users.name", "users.id", "users.created_at as users_created_at",
                 "users.updated_at as users_updated_at", "tweets.tweet", "tweets.created_at as tweets_created_at"])
@@ -61,8 +56,6 @@ class TopViewController extends Controller{
 //
 //        });
 
-    // user created at,  tweet created at
-
 
         $user = Auth::user();
         return view('TopView', ['user'=>$user, 'tweets'=>$tweets]);
@@ -78,11 +71,11 @@ class TopViewController extends Controller{
         $tweet->save();
 
 
-//        $tweets = Tweet::where('user_id', Auth::user()->id)->orderBy('updated_at', 'desc')->get();
-//        $tweets = $tweets->map(function ($item) {
-//            $item = collect($item)->forget('created_at')->forget('id')->forget('user_id');
-//            return $item;
-//        });
+        $tweets = Tweet::where('user_id', Auth::user()->id)->orderBy('updated_at', 'desc')->get();
+        $tweets = $tweets->map(function ($item) {
+            $item = collect($item)->forget('created_at')->forget('id')->forget('user_id');
+            return $item;
+        });
 
 
         $user = Auth::user();

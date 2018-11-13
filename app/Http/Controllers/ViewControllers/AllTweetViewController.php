@@ -16,26 +16,18 @@ class AllTweetViewController extends Controller{
         $this->middleware('auth');
     }
 
-
     public function index(){
         $tweets = Tweet::orderBy('updated_at', 'desc')->get();
 
-        \Log::debug($tweets);
-        \Log::debug("hello world");
-//
 //        $tweets = $tweets->map(function ($item) {
 //            $item = collect($item)->forget('created_at')->forget('user_id');
 //            return $item;
 //        });
-
-
-
         $user = Auth::user();
+
 
         $tweets = DB::select('select * from users inner join tweets on users.id = tweets.user_id');
         \Log::debug($tweets[0]->name);
-        //var_dump
-
 
         return view('AllTweetView', ['user'=> $user, 'tweets'=> $tweets]);
     }
@@ -43,6 +35,7 @@ class AllTweetViewController extends Controller{
 
     public  function post(Request $request){
         $request->msg;
+        $user = Auth::user();
 
         $tweet = new Tweet;
         $tweet->tweet = $request->tweet;
@@ -56,10 +49,10 @@ class AllTweetViewController extends Controller{
             return $item;
         });
 
-        \Log::debug(Tweet::find(1)->user);
-        \Log::debug(Auth::user()->id);
+//        \Log::debug(Tweet::find(1)->user);
+        \Log::debug(Auth::user());
 
-        return view("AllTweetView", ['user' => Auth::user()->name,'tweets'=> $tweets]);
+        return view("AllTweetView", ['user' =>$user ,'tweets'=> $tweets]);
 
     }
 
