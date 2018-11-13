@@ -30,19 +30,18 @@ class TopViewController extends Controller
             ->get();
 
         $tweets = $tweets->map(function ($item) {
-            $item = collect($item)
-                ->forget('created_at')
-                ->forget('id')
-                ->forget('user_id')
-                ->forget('email_verified_at')
-                ->forget('password')
-                ->forget('email')
-                ->forget('remember_token');
+
+            $item = array(
+                "name" => $item->name,
+                "tweet" => $item->tweet,
+                "updated_at" => $item->updated_at
+            );
+
             return $item;
+
         });
 
-        \Log::debug($tweets);
-
+    // user created at,  tweet created at
 
 
         $user = Auth::user();
