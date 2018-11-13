@@ -19,10 +19,6 @@ class AllTweetViewController extends Controller{
     public function index(){
         $tweets = Tweet::orderBy('updated_at', 'desc')->get();
 
-//        $tweets = $tweets->map(function ($item) {
-//            $item = collect($item)->forget('created_at')->forget('user_id');
-//            return $item;
-//        });
         $user = Auth::user();
 
 
@@ -55,9 +51,10 @@ class AllTweetViewController extends Controller{
     }
 
 
-
-
-
-
-
 }
+
+
+//        $tweets = $tweets->map(function ($item) {
+//            $item = collect($item)->forget('created_at')->forget('user_id');
+//            return $item;
+//        });

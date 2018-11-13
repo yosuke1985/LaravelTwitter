@@ -13,7 +13,6 @@ class TopViewController extends Controller{
 
     public $user;
 
-
     public function __construct(){
         $this->middleware('auth');
         $this->user = Auth::user();
@@ -39,7 +38,6 @@ class TopViewController extends Controller{
         $tweet->save();
 
         $tweets = $this->query();
-
 
         return view("TopView", ['user' => $this->user,'tweets'=>$tweets]);
 
