@@ -28,6 +28,15 @@ class UsersListViewController extends Controller{
 
     }
 
+    public function follow(){
+        $users = $this->queryUsers();
+
+        return view("UsersListView", ['users' => $users]);
+
+    }
+
+
+
 
     function queryUsers(){
         $users = DB::table('users')

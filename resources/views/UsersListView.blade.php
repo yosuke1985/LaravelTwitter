@@ -44,10 +44,28 @@
 @endguest
 
 @foreach($users as $user)
-    <h3> {{ $user["name"] }}: {{ $user["updated_at"] }}
+        <form method="post" action = "/follow">
+            {{ csrf_field() }}
+            <input type="submit" name = "aa" value="Follow"  /> {{ $user["name"] }}: {{ $user["updated_at"] }}
+        </form>
+
+
+
 @endforeach
 
+{{--<form method="post" action="/">--}}
+    {{--{{ csrf_field() }}--}}
+    {{--<div>Tweet</div>--}}
+    {{--<input type="text" name="tweet">--}}
+    {{--<br>--}}
+    {{--<input type="submit" value="Submit">--}}
+{{--</form>--}}
 
+
+{{--//buttonをクリックすると、ボタンをクリックしたユーザーidがfollow_user_idに入り、--}}
+{{--//ボタンを押されたユーザーがfollowed_user_idのなかにユーザーidが入る。--}}
+
+{{--//Followしていない人は上位に表示し、Followedの人は下部に表示させる。--}}
 
 </body>
 </html>
