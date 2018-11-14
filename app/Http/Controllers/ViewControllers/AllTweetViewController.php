@@ -10,27 +10,24 @@ use Illuminate\Support\Facades\DB;
 
 
 class AllTweetViewController extends Controller{
-
+    public $user;
 
     public function __construct(){
         $this->middleware('auth');
+        $this->user = Auth::user();
     }
 
     public function index(){
         $tweets = Tweet::orderBy('updated_at', 'desc')->get();
 
-        $user = Auth::user();
-
-
         $tweets = DB::select('select * from users inner join tweets on users.id = tweets.user_id');
         \Log::debug($tweets[0]->name);
 
-        return view('AllTweetView', ['user'=> $user, 'tweets'=> $tweets]);
+        return view('AllTweetView', ['user'=> $this->user, 'tweets'=> $tweets]);
     }
 
 
     public  function post(Request $request){
-        $user = Auth::user();
 
         $tweet = new Tweet;
         $tweet->tweet = $request->tweet;
@@ -46,8 +43,31 @@ class AllTweetViewController extends Controller{
 //        \Log::debug(Tweet::find(1)->user);
         \Log::debug(Auth::user());
 
-        return view("AllTweetView", ['user' =>$user ,'tweets'=> $tweets]);
+        return view("AllTweetView", ['user' => $this->user ,'tweets'=> $tweets]);
 
+    }
+
+
+
+    function query(){
+        $tweets = DB::table('users')
+            ->select(["users.name", "users.id", "users.created_at as users_created_at",
+                "users.updated_at as users_updated_at", "tweets.tweet", "tweets.created_at as tweets_created_at"])
+            ->join('tweets', 'users.id', '=', 'tweets.user_id')
+            ->where("tweets.user_id", Auth::user()->id)
+            ->get();
+
+        $tweets = $tweets->map(function ($item){
+            $item = array(
+                "name" => $item->name,
+                "tweet" => $item->tweet,
+                "updated_at" => $item->users_updated_at
+            );
+            return $item;
+        }
+        );
+
+        return $tweets;
     }
 
 

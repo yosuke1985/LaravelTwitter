@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Tweet;
 use Illuminate\Support\Facades\DB;
 
-
-
 class TopViewController extends Controller{
 
     public $user;
@@ -20,14 +18,8 @@ class TopViewController extends Controller{
 
     public function index(){
 
-        $user = Auth::user();
-
         $tweets = $this->query();
-
-        //ユーザー一覧　フォロー機能
-
         return view('TopView', ['user'=>$this->user, 'tweets'=>$tweets]);
-
     }
 
     public function post(Request $request){
@@ -40,9 +32,7 @@ class TopViewController extends Controller{
         $tweets = $this->query();
 
         return view("TopView", ['user' => $this->user,'tweets'=>$tweets]);
-
     }
-
 
     function query(){
         $tweets = DB::table('users')
@@ -51,6 +41,8 @@ class TopViewController extends Controller{
             ->join('tweets', 'users.id', '=', 'tweets.user_id')
             ->where("tweets.user_id", Auth::user()->id)
             ->get();
+        // Collection型でstndClassのインスタンス
+
 
         $tweets = $tweets->map(function ($item){
             $item = array(
@@ -58,12 +50,12 @@ class TopViewController extends Controller{
                 "tweet" => $item->tweet,
                 "updated_at" => $item->users_updated_at
             );
+
             return $item;
         }
         );
 
         return $tweets;
-
     }
 
 }
