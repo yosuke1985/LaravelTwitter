@@ -18,7 +18,7 @@ class TopViewController extends Controller{
 
     public function index(){
 
-        $tweets = $this->query();
+        $tweets = $this->queryForTweets();
         return view('TopView', ['user'=>$this->user, 'tweets'=>$tweets]);
     }
 
@@ -29,12 +29,12 @@ class TopViewController extends Controller{
         $tweet->user_id =  Auth::user()->id;
         $tweet->save();
 
-        $tweets = $this->query();
+        $tweets = $this->queryForTweets();
 
         return view("TopView", ['user' => $this->user,'tweets'=>$tweets]);
     }
 
-    function query(){
+    function queryForTweets(){
         $tweets = DB::table('users')
             ->select(["users.name", "users.id", "users.created_at as users_created_at",
                 "users.updated_at as users_updated_at", "tweets.tweet", "tweets.created_at as tweets_created_at",

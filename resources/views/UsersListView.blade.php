@@ -43,18 +43,11 @@
     <br>
 @endguest
 
-<h1>Top Timeline </h1>
-<form method="post" action="/">
-    {{ csrf_field() }}
-    <div>Tweet</div>
-    <input type="text" name="tweet">
-    <br>
-    <input type="submit" value="Submit">
-</form>
+{{--@foreach($tweets as $tweet)--}}
+    {{--<h3> {{ $tweet["name"] }}:{{ $tweet["tweet"] }} {{ $tweet["updated_at"] }}--}}
+{{--@endforeach--}}
 
-@foreach($tweets as $tweet)
-    <h3> {{ $tweet["name"] }}:{{ $tweet["tweet"] }} {{ $tweet["updated_at"] }}
-@endforeach
+
 
 </body>
 </html>

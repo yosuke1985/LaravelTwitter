@@ -14,12 +14,23 @@
         @endif
     </li>
 @else
+    <b>Tweet</b>
+    <li>
+        <a href="/AllTweet">All Tweets</a>
+    </li>
     <li>
         <a href="/">
             {{ Auth::user()->name }}'s Timeline
         </a>
     </li>
     <br>
+    <b>Follow</b>
+    <li>
+        <a href="/users">User List</a>
+    </li>
+
+    <br>
+    <b>Logout</b>
     <li>
         <a href="{{ route('logout') }}" onclick="event.preventDefault();
         document.getElementById('logout-form').submit();">
@@ -29,6 +40,7 @@
             @csrf
         </form>
     </li>
+    <br>
 @endguest
 
 
