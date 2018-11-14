@@ -50,7 +50,6 @@ class AllTweetViewController extends Controller{
             ->get();
         // Collection型でstndClassのインスタンス
 
-
         $tweets = $tweets->map(function ($item){
             $item = array(
                 "name" => $item->name,

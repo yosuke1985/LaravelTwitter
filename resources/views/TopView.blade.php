@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 @extends('layouts.app')
 <body>
+
 <!-- Authentication Links -->
 @guest
     <li>
@@ -36,7 +37,6 @@
     <br>
     <input type="submit" value="Submit">
 </form>
-{{--<h3>{{ $tweets }}</h3>--}}
 
 @foreach($tweets as $tweet)
     <h3> {{ $tweet["name"] }}:{{ $tweet["tweet"] }} {{ $tweet["updated_at"] }}

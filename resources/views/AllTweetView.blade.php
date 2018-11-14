@@ -1,9 +1,8 @@
-{{--@extends('layouts.app')--}}
-
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <body>
 @extends('layouts.app')
+
 <!-- Authentication Links -->
 @guest
     <li>
@@ -33,7 +32,6 @@
 @endguest
 
 
-
 <h1>All Tweets</h1>
     <form method="post" action="/AllTweet">
         {{ csrf_field() }}
@@ -43,8 +41,6 @@
         <input type="submit" value="Submit">
     </form>
 
-{{--<h3>{{ $user->name }}</h3>--}}
-{{--<h3>{{ $tweets[0] }}</h3>--}}
 
 @foreach($tweets as $tweet)
     <h3>{{ $tweet["name"] }}: {{ $tweet["tweet"] }} {{ $tweet["updated_at"] }}
