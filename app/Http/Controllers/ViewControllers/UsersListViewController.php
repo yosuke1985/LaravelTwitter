@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ViewControllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class UsersListViewController extends Controller{
@@ -19,34 +20,33 @@ class UsersListViewController extends Controller{
 
     public function index(){
 //        echo "Hello Social";
-        return view('UsersListView');
+
+        $users = $this->queryUsers();
+
+        return view("UsersListView", ['users' => $users]);
+
 
     }
 
 
     function queryUsers(){
-        $tweets = DB::table('users')
-            ->select(["users.name", "users.id", "users.created_at as users_created_at",
-                "users.updated_at as users_updated_at", "tweets.tweet", "tweets.created_at as tweets_created_at",
-                "tweets.updated_at as tweets_updated_at"])
-            ->join('tweets', 'users.id', '=', 'tweets.user_id')
-            ->where("tweets.user_id", Auth::user()->id)
-            ->orderBy('tweets.updated_at', 'desc')
+        $users = DB::table('users')
+            ->select(["users.name","users.updated_at",])
+            ->orderBy('users.updated_at', 'desc')
             ->get();
         // Collection型でstndClassのインスタンス
 
-        $tweets = $tweets->map(function ($item){
+        $users = $users->map(function ($item){
             $item = array(
                 "name" => $item->name,
-                "tweet" => $item->tweet,
-                "updated_at" => $item->tweets_updated_at
+                "updated_at" => $item->updated_at
             );
 
             return $item;
         }
         );
 
-        return $tweets;
+        return $users;
     }
 
 

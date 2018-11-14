@@ -43,9 +43,9 @@
     <br>
 @endguest
 
-{{--@foreach($tweets as $tweet)--}}
-    {{--<h3> {{ $tweet["name"] }}:{{ $tweet["tweet"] }} {{ $tweet["updated_at"] }}--}}
-{{--@endforeach--}}
+@foreach($users as $user)
+    <h3> {{ $user["name"] }}: {{ $user["updated_at"] }}
+@endforeach
 
 
 
