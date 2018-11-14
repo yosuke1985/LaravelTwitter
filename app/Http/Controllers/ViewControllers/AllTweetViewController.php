@@ -18,10 +18,7 @@ class AllTweetViewController extends Controller{
     }
 
     public function index(){
-        $tweets = Tweet::orderBy('updated_at', 'desc')->get();
-
-        $tweets = DB::select('select * from users inner join tweets on users.id = tweets.user_id');
-        \Log::debug($tweets[0]->name);
+        $tweets = $this->query();
 
         return view('AllTweetView', ['user'=> $this->user, 'tweets'=> $tweets]);
     }
@@ -34,13 +31,7 @@ class AllTweetViewController extends Controller{
         $tweet->user_id =  Auth::user()->id;
         $tweet->save();
 
-        $tweets = Tweet::orderBy('updated_at', 'desc')->get();
-        $tweets = $tweets->map(function ($item) {
-            $item = collect($item)->forget('created_at')->forget('id')->forget('user_id');
-            return $item;
-        });
-
-//        \Log::debug(Auth::user());
+        $tweets = $this->query();
 
         return view("AllTweetView", ['user' => $this->user ,'tweets'=> $tweets]);
 
@@ -54,11 +45,12 @@ class AllTweetViewController extends Controller{
                 "users.updated_at as users_updated_at", "tweets.tweet", "tweets.created_at as tweets_created_at",
                 "tweets.updated_at as tweets_updated_at"])
             ->join('tweets', 'users.id', '=', 'tweets.user_id')
-            ->where("tweets.user_id", Auth::user()->id)
+//            ->where("tweets.user_id", Auth::user()->id)
             ->orderBy('tweets.updated_at', 'desc')
             ->get();
         // Collection型でstndClassのインスタンス
-        
+
+
         $tweets = $tweets->map(function ($item){
             $item = array(
                 "name" => $item->name,
