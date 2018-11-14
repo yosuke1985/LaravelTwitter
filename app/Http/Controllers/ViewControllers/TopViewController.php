@@ -37,9 +37,11 @@ class TopViewController extends Controller{
     function query(){
         $tweets = DB::table('users')
             ->select(["users.name", "users.id", "users.created_at as users_created_at",
-                "users.updated_at as users_updated_at", "tweets.tweet", "tweets.created_at as tweets_created_at"])
+                "users.updated_at as users_updated_at", "tweets.tweet", "tweets.created_at as tweets_created_at",
+                "tweets.updated_at as tweets_updated_at"])
             ->join('tweets', 'users.id', '=', 'tweets.user_id')
             ->where("tweets.user_id", Auth::user()->id)
+            ->orderBy('tweets.updated_at', 'desc')
             ->get();
         // Collection型でstndClassのインスタンス
 
@@ -48,7 +50,7 @@ class TopViewController extends Controller{
             $item = array(
                 "name" => $item->name,
                 "tweet" => $item->tweet,
-                "updated_at" => $item->users_updated_at
+                "updated_at" => $item->tweets_updated_at
             );
 
             return $item;

@@ -43,15 +43,12 @@
         <input type="submit" value="Submit">
     </form>
 
-
-{{--配列を変数に入れループで回す--}}
-
 {{--<h3>{{ $user->name }}</h3>--}}
 {{--<h3>{{ $tweets[0] }}</h3>--}}
-@foreach($tweets as $tweet)
-    <h3>{{ $tweet->name }}:{{ $tweet->tweet }} {{ $tweet->updated_at }}
-@endforeach
 
+@foreach($tweets as $tweet)
+    <h3>{{ $tweet->name }}: {{ $tweet->tweet }} {{ $tweet->updated_at }}
+@endforeach
 
 </body>
 </html>
