@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Follow;
+use App\Models\User;
+
 
 
 
@@ -24,26 +26,27 @@ class UsersListViewController extends Controller{
 
     public function index(){
 
+        $follows = User::find(Auth::user()->id)->followUsers; //relationでUserをとってくる。
         $users = $this->queryUsers();
-        return view("UsersListView", ['users' => $users]);
+
+//        \Log::debug("$follows");
+        \Log::debug($follows);
+
+        return view("UsersListView", ['follows' => $follows, 'users'=> $users]);
     }
 
     public function follow(Request $request){
-//
-//        $tweet = new Tweet;
-//        $tweet->tweet = $request->tweet;
-//        $tweet->user_id =  Auth::user()->id;
-//        $tweet->save();
 
         $follow = new Follow;
         $follow->follow_user_id = Auth::user()['id'];
         $follow->followed_user_id = $request['user_id'];
         $follow->save();
 
-
         $users = $this->queryUsers();
         return view("UsersListView", ['users' => $users]);
     }
+
+
 
 
     function queryUsers(){
@@ -70,3 +73,6 @@ class UsersListViewController extends Controller{
 
 
 }
+
+
+

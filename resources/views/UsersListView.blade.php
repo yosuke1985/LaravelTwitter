@@ -43,11 +43,11 @@
     <br>
 @endguest
 
-@foreach($users as $user)
-        <form method="post" action = "/follow">
+@foreach($follows as $follow)
+        <form method="post" action = "/users/unfollow">
             {{ csrf_field() }}
-            <input type="hidden" name = "user_id" value = {{ $user["id"] }} />
-            <input type="submit" name = "Follow" value="Follow"  /> {{ $user["name"] }}: {{ $user["updated_at"] }}
+            <input type="hidden" name = "user_id" value = {{ $follow["id"] }} />
+            <input type="submit" name = "Follow" value="Followed"  /> {{ $follow["name"] }}: {{ $follow["updated_at"] }}
         </form>
 
 @endforeach

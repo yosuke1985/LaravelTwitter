@@ -37,4 +37,14 @@ class User extends Model
 
 
 
+
+
+    Public function followUsers(){
+        return $this->hasMany(Follow::class, "follow_user_id");
+    }
+
+    Public function followedUsers(){
+        return $this->hasMany(Follow::class, "followed_user_id");
+    }
+
 }

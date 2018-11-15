@@ -20,4 +20,5 @@ class Follow extends Model {
 
     // Relationships
 
+
 }
