@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Follow;
+
 
 
 class UsersListViewController extends Controller{
@@ -14,44 +16,52 @@ class UsersListViewController extends Controller{
 
 
     public function __construct(){
+
         $this->middleware('auth');
         $this->user = Auth::user();
     }
 
+
     public function index(){
-//        echo "Hello Social";
 
         $users = $this->queryUsers();
-
         return view("UsersListView", ['users' => $users]);
-
-
     }
 
-    public function follow(){
+    public function follow(Request $request){
+//
+//        $tweet = new Tweet;
+//        $tweet->tweet = $request->tweet;
+//        $tweet->user_id =  Auth::user()->id;
+//        $tweet->save();
+
+        $follow = new Follow;
+        $follow->follow_user_id = Auth::user()['id'];
+        $follow->followed_user_id = $request['user_id'];
+        $follow->save();
+
+
         $users = $this->queryUsers();
-
         return view("UsersListView", ['users' => $users]);
-
     }
-
-
 
 
     function queryUsers(){
-        $users = DB::table('users')
-            ->select(["users.name","users.updated_at",])
+        $users = DB::table('users') // Collection型でstndClassのインスタンス
+            ->select(["users.id","users.name","users.updated_at"])
             ->orderBy('users.updated_at', 'desc')
             ->get();
-        // Collection型でstndClassのインスタンス
+
 
         $users = $users->map(function ($item){
             $item = array(
                 "name" => $item->name,
-                "updated_at" => $item->updated_at
+                "updated_at" => $item->updated_at,
+                "id"=> $item->id
+
             );
 
-            return $item;
+            return $item;//Array型
         }
         );
 
