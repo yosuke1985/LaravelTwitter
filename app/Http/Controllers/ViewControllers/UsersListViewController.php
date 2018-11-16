@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Follow;
 use App\Models\User;
 
-
-
-
 class UsersListViewController extends Controller{
 
     public $user;
@@ -71,7 +68,6 @@ class UsersListViewController extends Controller{
             ->orderBy('users.updated_at', 'desc')
             ->get();
 
-
         $users = $users->map(function ($item){
             $item = array(
                 "name" => $item->name,
@@ -91,6 +87,9 @@ class UsersListViewController extends Controller{
         $follows = DB::table("users")->select(["users.name as followed_name", "users.id", "users.created_at", "follows.follow_user_id", "follows.followed_user_id"])
             ->join('follows', "users.id", '=', 'follows.followed_user_id')
             ->where("follows.follow_user_id", Auth::user()->id)
+//            ->where('users.deleted_at',"=", null)
+//            ->where('follows.deleted_at',"=", null)
+            ->whereNull("follows.deleted_at")
             ->orderBy('users.updated_at','desc')
             ->get();
 
@@ -100,6 +99,7 @@ class UsersListViewController extends Controller{
         foreach ($follows as $follow){
             $followed_list[$follow->followed_user_id] = $follow->followed_name;
         }
+
         //必要なものだけにする。
 
         return $followed_list; // Array
