@@ -3,23 +3,67 @@
 namespace App\Http\Controllers\ViewControllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Tweet;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\Foreach_;
 
 class TopViewController extends Controller{
 
     public $user;
+    public $tweets;
+
 
     public function __construct(){
         $this->middleware('auth');
         $this->user = Auth::user();
+        $this->tweets = array();
     }
+
+
+    //        $tweets = $this->queryForTweets();
 
     public function index(){
 
-        $tweets = $this->queryForTweets();
-        return view('TopView', ['user'=>$this->user, 'tweets'=>$tweets]);
+        $followList = $this->arrayFollowslist();// id=>nameのarray
+
+        //foreachを使わず、followしているユーザーのtweetをとってくる。
+        foreach ($followList as $key => $value) {
+            \Log::debug($key);
+            \Log::debug($value);
+
+            $tweet = DB::table("tweets")
+                ->select(["tweets.user_id","tweets.tweet","tweets.updated_at","users.name"])
+                ->join("users", "tweets.user_id", "=","users.id")
+                ->where("tweets.user_id","=", $key)
+                ->orderBy("tweets.updated_at", 'desc')
+                ->get();
+
+            \Log::debug($tweet);// Collection
+//            {"user_id":6,"tweet":"\u3054\u3049\u30fc\u308a\uff01","updated_at":"2018-11-15 06:46:44"}
+            $tweet = $tweet->map(function ($item){
+                $item = array(
+                    "name" => $item->name,
+                    "tweet" => $item->tweet,
+                    "updated_at" => $item->updated_at
+                );
+//                \Log::debug($item);
+
+                return $item;
+            }
+            )->toArray();
+
+
+            $this->tweets = array_merge($this->tweets,$tweet);
+
+
+        }
+
+
+        \Log::debug($this->tweets);// array
+
+//        return view('TopView', ['user'=>$this->user, 'tweets'=>$tweets]);
     }
 
     public function post(Request $request){
@@ -56,36 +100,32 @@ class TopViewController extends Controller{
         }
         );
 
+
         return $tweets;
+    }
+
+
+    function arrayFollowslist(){
+
+        $follows = DB::table("follows")->select(["followed_user_id", "follow_user_id","users.name as followed_name" ])
+            ->join("users", "follows.followed_user_id","=", "users.id")
+            ->where("follows.follow_user_id", Auth::user()->id)
+            ->whereNull("users.deleted_at")
+            ->get();
+
+        \Log::debug($follows);
+        //ユーザー一覧　フォローしている人のユーザーidで取ってくる。
+
+        $followed_list = array();
+        foreach ($follows as $follow){
+            $followed_list[$follow->followed_user_id] = $follow->followed_name;
+        }
+
+        //必要なものだけにする。
+
+        return $followed_list; // Array
+
     }
 
 }
 
-//inner join
-////        $tweets = DB::select("select * from users inner join tweets on users.id = tweets.user_id ");
-///
-//$tweets = DB::select("select users.name, users.id, users.created_at as users_created_at,
-//                  users.updated_at as users_updated_at, tweets.tweet, tweets.created_at as tweets_created_at
-//                  from users inner join tweets on users.id = tweets.user_id ");
-
-
-//arrayで指定したカラムだけ
-//        $tweets = $tweets->map(function ($item) {
-//            $item = array(
-//                "name" => $item->name,
-//                "tweet" => $item->tweet,
-//                "updated_at" => $item->updated_at
-//            );
-//            return $item;
-//        }
-//
-//            //collectionはLaravelのクラス
-//            //php
-//            $item = collect($item)->only(['name', 'tweet','tweets_created_at', 'users_created_at']);
-//
-//            return $item;
-//        });
-
-
-//\Log::debug("hereee");
-//\Log::debug($tweets);

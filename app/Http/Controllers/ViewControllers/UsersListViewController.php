@@ -84,12 +84,10 @@ class UsersListViewController extends Controller{
     }
 
     function arrayFollowslist(){
-        $follows = DB::table("users")->select(["users.name as followed_name", "users.id", "users.created_at", "follows.follow_user_id", "follows.followed_user_id"])
-            ->join('follows', "users.id", '=', 'follows.followed_user_id')
+        $follows = DB::table("follows")->select(["followed_user_id", "follow_user_id","users.name as followed_name" ])
+            ->join("users", "follows.followed_user_id","=", "users.id")
             ->where("follows.follow_user_id", Auth::user()->id)
-//            ->where('users.deleted_at',"=", null)
-//            ->where('follows.deleted_at',"=", null)
-            ->whereNull("follows.deleted_at")
+            ->whereNull("users.deleted_at")
             ->orderBy('users.updated_at','desc')
             ->get();
 
