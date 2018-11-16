@@ -12,6 +12,7 @@ Route::post('/AllTweet', 'ViewControllers\AllTweetViewController@post');
 
 //Social
 Route::get('/users', 'ViewControllers\UsersListViewController@index');
-Route::post('/users', 'ViewControllers\UsersListViewController@follow');
+Route::post('/users/unfollow', 'ViewControllers\UsersListViewController@unfollow');
+Route::post('/users/follow', 'ViewControllers\UsersListViewController@follow');
 
 

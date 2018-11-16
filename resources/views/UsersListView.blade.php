@@ -43,15 +43,49 @@
     <br>
 @endguest
 
-@foreach($follows as $follow)
-        <form method="post" action = "/users/unfollow">
+{{--$followed_list--}}
+{{--$users--}}
+
+
+@foreach($users as $user)
+    {{--if arrayのkey に存在しているか　$user["id"]--}}
+    @if (!array_key_exists( $user["id"], $followed_list))
+
+        {{--echo "Follow"--}}
+        {{--// Follow--}}
+        <form method="post" action = "/users/follow">
             {{ csrf_field() }}
-            <input type="hidden" name = "user_id" value = {{ $follow["id"] }} />
-            <input type="submit" name = "Follow" value="Followed"  /> {{ $follow["name"] }}: {{ $follow["updated_at"] }}
+            <input type="hidden" name = "user_id" value = {{ $user["id"] }} />
+            <input type="submit" name = "Follow" value="Follow"  /> {{ $user["name"] }}: {{ $user["updated_at"] }}
         </form>
 
+    @else
+        {{--// Followed--}}
+        {{--echo "Followed"--}}
+        <form method="post" action = "/users/unfollow">
+        {{ csrf_field() }}
+        <input type="hidden" name = "user_id" value = {{ $user["id"] }} />
+        <input type="submit" name = "Follow" value="Followed"  /> {{ $user["name"] }}: {{ $user["updated_at"] }}
+        </form>
+
+    @endif
 @endforeach
+
+
+
+
+
 
 
 </body>
 </html>
+
+
+{{--@foreach($users as $user)--}}
+    {{--<form method="post" action = "/users/unfollow">--}}
+        {{--{{ csrf_field() }}--}}
+        {{--<input type="hidden" name = "user_id" value = {{ $user["id"] }} />--}}
+        {{--<input type="submit" name = "Follow" value="Followed"  /> {{ $user["name"] }}: {{ $user["updated_at"] }}--}}
+    {{--</form>--}}
+
+{{--@endforeach--}}
