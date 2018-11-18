@@ -28,42 +28,11 @@ class TopViewController extends Controller{
 
         $followList = $this->arrayFollowslist();// id=>nameのarray
 
-        //foreachを使わず、followしているユーザーのtweetをとってくる。
-        foreach ($followList as $key => $value) {
-            \Log::debug($key);
-            \Log::debug($value);
-
-            $tweet = DB::table("tweets")
-                ->select(["tweets.user_id","tweets.tweet","tweets.updated_at","users.name"])
-                ->join("users", "tweets.user_id", "=","users.id")
-                ->where("tweets.user_id","=", $key)
-                ->orderBy("tweets.updated_at", 'desc')
-                ->get();
-
-            \Log::debug($tweet);// Collection
-//            {"user_id":6,"tweet":"\u3054\u3049\u30fc\u308a\uff01","updated_at":"2018-11-15 06:46:44"}
-            $tweet = $tweet->map(function ($item){
-                $item = array(
-                    "name" => $item->name,
-                    "tweet" => $item->tweet,
-                    "updated_at" => $item->updated_at
-                );
-//                \Log::debug($item);
-
-                return $item;
-            }
-            )->toArray();
-
-
-            $this->tweets = array_merge($this->tweets,$tweet);
-
-
-        }
-
+        $this->timelineQuery($followList);
 
         \Log::debug($this->tweets);// array
 
-//        return view('TopView', ['user'=>$this->user, 'tweets'=>$tweets]);
+        return view('TopView', ['user'=>$this->user, 'tweets'=>$this->tweets]);
     }
 
     public function post(Request $request){
@@ -125,6 +94,40 @@ class TopViewController extends Controller{
 
         return $followed_list; // Array
 
+    }
+
+
+    function timelineQuery(Array $followList){
+
+        //foreachを使わず、followしているユーザーのtweetをとってくる。
+        foreach ($followList as $key => $value) {
+            \Log::debug($key);
+            \Log::debug($value);
+
+            $tweet = DB::table("tweets")
+                ->select(["tweets.user_id", "tweets.tweet", "tweets.updated_at", "users.name"])
+                ->join("users", "tweets.user_id", "=", "users.id")
+                ->where("tweets.user_id", "=", $key)
+                ->orderBy("tweets.updated_at", 'desc')
+                ->get();
+
+            \Log::debug($tweet);// Collection
+//            {"user_id":6,"tweet":"\u3054\u3049\u30fc\u308a\uff01","updated_at":"2018-11-15 06:46:44"}
+            $tweet = $tweet->map(function ($item) {
+                $item = array(
+                    "name" => $item->name,
+                    "tweet" => $item->tweet,
+                    "updated_at" => $item->updated_at
+                );
+//                \Log::debug($item);
+
+                return $item;
+            }
+            )->toArray();
+
+
+            $this->tweets = array_merge($this->tweets, $tweet);
+        }
     }
 
 }
