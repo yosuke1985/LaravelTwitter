@@ -22,16 +22,12 @@ class TopViewController extends Controller{
     }
 
 
-    //        $tweets = $this->queryForTweets();
-
     public function index(){
 
         $followList = $this->arrayFollowslist();// id=>nameのarray
 
         $this->timelineQuery($followList);
-
-        \Log::debug($this->tweets);// array
-
+        
         return view('TopView', ['user'=>$this->user, 'tweets'=>$this->tweets]);
     }
 
@@ -42,9 +38,10 @@ class TopViewController extends Controller{
         $tweet->user_id =  Auth::user()->id;
         $tweet->save();
 
-        $tweets = $this->queryForTweets();
+        $followList = $this->arrayFollowslist();// id=>nameのarray
+        $this->timelineQuery($followList);
 
-        return view("TopView", ['user' => $this->user,'tweets'=>$tweets]);
+        return view("TopView", ['user' => $this->user,'tweets'=>$this->tweets]);
     }
 
     function queryForTweets(){
@@ -111,7 +108,7 @@ class TopViewController extends Controller{
                 ->orderBy("tweets.updated_at", 'desc')
                 ->get();
 
-            \Log::debug($tweet);// Collection
+//            \Log::debug($tweet);// Collection
 //            {"user_id":6,"tweet":"\u3054\u3049\u30fc\u308a\uff01","updated_at":"2018-11-15 06:46:44"}
             $tweet = $tweet->map(function ($item) {
                 $item = array(
@@ -127,6 +124,13 @@ class TopViewController extends Controller{
 
 
             $this->tweets = array_merge($this->tweets, $tweet);
+
+            foreach($this->tweets as $key => $value){
+                $sort_keys[$key] = $value['updated_at'];
+            }
+
+            array_multisort($sort_keys, SORT_DESC, $this->tweets);
+
         }
     }
 
